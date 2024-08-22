@@ -11,3 +11,9 @@ export const getAllMovies = async () => {
     const data = await res.data;
     return data;
   };
+
+
+  export const getMovieById = async (movieId) => {
+    const res = await axios.get(`http://localhost:5000/api/movies/${movieId}`); 
+    return res.data;
+  };

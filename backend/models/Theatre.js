@@ -1,3 +1,18 @@
+// const mongoose = require('mongoose');
+
+// const theatreSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   city: { type: String, required: true },
+//   ticketPrice: { type: Number, required: true },
+//   seats: { type: Array, required: true },
+//   image: { type: String, required: true },
+// });
+
+// const Theatre = mongoose.model('Theatre', theatreSchema);
+
+// module.exports = Theatre;
+
+
 const mongoose = require('mongoose');
 
 const theatreSchema = new mongoose.Schema({
@@ -6,6 +21,7 @@ const theatreSchema = new mongoose.Schema({
   ticketPrice: { type: Number, required: true },
   seats: { type: Array, required: true },
   image: { type: String, required: true },
+  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true } 
 });
 
 const Theatre = mongoose.model('Theatre', theatreSchema);
