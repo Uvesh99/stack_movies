@@ -48,7 +48,7 @@ const Upcomming = ({ items, title }) => {
     <>
       <section className='upcome'>
         <div className='container'>
-          <div className='heading flexSB'>
+          <div className='heading flexSB' style={{ marginTop: title === "Upcomming Movies" ? "800px" : "0"}}>
             <h1>{title}</h1>
             <Link to='/'>View All</Link>
           </div>
@@ -57,7 +57,7 @@ const Upcomming = ({ items, title }) => {
               {items.map((item) => {
                 return (
                   <>
-                    <Ucard key={item.id} item={item} />
+                    <Ucard key={item._id} item={item} />
                   </>
                 )
               })}

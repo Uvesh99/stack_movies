@@ -1,11 +1,11 @@
-.home {
+ .home {
   position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100%;
-  color: #fff;
-}
+  color: #fff;  
+} 
 .homeContainer {
   position: relative;
 }
