@@ -13,6 +13,9 @@ connectDB();
 app.use(cors());/*cors*/ 
 app.use(express.json());
 
+app.get('/',(req,res)=>{
+    res.send("Hello......")
+})
 app.use('/api/movies', movieRoutes);
 app.use('/api/theatres', theatreRoutes);
 app.use('/api/showtimes', showtimeRoutes);
