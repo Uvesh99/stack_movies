@@ -1,16 +1,17 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import Ucard from "./Ucard"
-import Slider from "react-slick"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import { Link } from "react-router-dom";
+import Ucard from "./Ucard";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 const SampleNextArrow = (props) => {
   const { onClick } = props
   return (
     <div className='control-btn' onClick={onClick}>
-      <button className='next'>
-        <i class='fa fa-chevron-right'></i>
+      <button className='next nextup' >
+        <ArrowCircleRightIcon ></ArrowCircleRightIcon>
       </button>
     </div>
   )
@@ -19,8 +20,8 @@ const SamplePrevArrow = (props) => {
   const { onClick } = props
   return (
     <div className='control-btn' onClick={onClick}>
-      <button className='prev'>
-        <i class='fa fa-chevron-left'></i>
+      <button className='prev prevup'>
+        <ArrowCircleLeftIcon></ArrowCircleLeftIcon>
       </button>
     </div>
   )

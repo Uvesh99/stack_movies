@@ -1,13 +1,12 @@
-import React, { useState } from "react"
-import { trending } from "../../dummyData"
+import { useState } from "react"
 import Home from "../homes/Home"
-import "./style.css"
+import "./Trending.css"
 
-const Trending = () => {
-  const [items, setItems] = useState(trending)
+const Trending = ({ items }) => {
+  const [movies, setMovies] = useState(items)
   return (
     <>
-    <h1 style={{marginTop:"30px"}}>Trending Movies</h1>
+    <h1 style={{marginTop:"20px",marginLeft:'6rem',color:'white'}}>Trending Movies</h1>
       <section className='trending'>
         <Home items={items} />
       </section>

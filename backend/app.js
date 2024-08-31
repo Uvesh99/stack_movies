@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');/*new*/ 
+const cors = require('cors');/*cors*/ 
 const connectDB = require('./config/db.js');
 const movieRoutes = require('./routes/movieRoutes.js');
 const theatreRoutes = require('./routes/theatreRoutes.js');
@@ -10,7 +10,7 @@ const addminRoutes = require("./routes/adminRoutes.js");
 const paymentRoutes=require("./routes/paymentRoutes.js")
 const app = express();
 connectDB();
-app.use(cors());/*new*/ 
+app.use(cors());/*cors*/ 
 app.use(express.json());
 
 app.use('/api/movies', movieRoutes);

@@ -93,3 +93,23 @@ exports.deleteUser = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+/**User Profile */
+exports.getUserProfiles = async (req, res) => {
+  const userId = req.params.id;
+  let existUser;
+  try {
+    existUser = await User.findById(userId);
+  } catch (e) {
+    return console.log(e);
+  }
+  if (!existUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  return res.status(200).json({
+    name: existUser.name,
+    email: existUser.email,
+    phone: existUser.phone,
+    role: existUser.role,
+  });
+};

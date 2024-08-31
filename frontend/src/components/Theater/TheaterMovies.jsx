@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getMoviesByTheatre, updateMovie, deleteMovie } from '../../api/Theater_api/Theater';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -9,7 +9,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 
 function TheaterMovies() {
   const { theatreId } = useParams();
@@ -20,6 +19,8 @@ function TheaterMovies() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    // Get All The Movies
     const fetchMovies = async () => {
       try {
         const data = await getMoviesByTheatre(theatreId);
@@ -32,6 +33,7 @@ function TheaterMovies() {
     fetchMovies();
   }, [theatreId]);
 
+  // Edite Movie Information
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditMovie({
@@ -40,6 +42,7 @@ function TheaterMovies() {
     });
   };
 
+  // Update Movie
   const handleUpdateMovie = async (e) => {
     e.preventDefault();
     try {
@@ -47,27 +50,32 @@ function TheaterMovies() {
       setMovies(movies.map(movie => movie._id === editMovie._id ? updatedMovie : movie));
       setIsEditing(false);
       setEditMovie(null);
-    } catch (error) {
+    } catch (e) {
       alert('Error updating movie');
+      console.log('error',e);
     }
   };
 
+  // Delete Movie
   const handleDeleteMovie = async (id, e) => {
     e.stopPropagation();
     try {
       await deleteMovie(id);
       setMovies(movies.filter(movie => movie._id !== id));
       alert('Movie deleted successfully!');
-    } catch (error) {
+    } catch (e) {
       alert('You are not authorized to delete this movie');
+      console.log('error',e);
     }
   };
 
+  // Cancel Edit
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditMovie(null);
   };
 
+  // Move To Particuler Movie
   const handleMovieClick = (movieId) => {
     if (!isEditing) {
       navigate(`/movie/${movieId}`);
@@ -80,18 +88,35 @@ function TheaterMovies() {
     setEditMovie(movie);
   };
 
+  const inputStyles = {
+    mb: 2,
+    '& .MuiInputBase-input': {
+      color: 'white',
+    },
+    '& .MuiFormLabel-root': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottom: '1px solid white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottom: '2px solid white',
+    },
+  };
+  
+
   return (
     <Box p={2}>
-      <Typography variant="h4" color="white" gutterBottom>Movies</Typography>
+      <Typography variant="h4" color="white" gutterBottom textAlign={'center'} marginBottom={'3rem'}> Available Movies</Typography>
       <Grid container spacing={2}>
         {movies.map(movie => (
-          <Grid item xs={12} sm={6} md={4} key={movie._id}>
-            <Card sx={{ backgroundColor: '#333', color: 'white' }} onClick={() => handleMovieClick(movie._id)}>
+          <Grid item xs={12} sm={6} md={4} key={movie._id} spacing={7}>
+            <Card sx={{ backgroundColor: '#333', color: 'white'}} onClick={() => handleMovieClick(movie._id)}>
               <CardMedia
                 component="img"
-                height="140"
                 image={movie.image}
                 alt={movie.title}
+                sx={{objectFit: 'cover',width: '100%',aspectRatio: '16/9'}}
               />
               <CardContent>
                 <Typography variant="h6">{movie.title}</Typography>
@@ -116,55 +141,55 @@ function TheaterMovies() {
             name="title"
             label="Title"
             type="text"
-            fullWidth
+            style={{width:'100%'}}
             variant="standard"
             value={editMovie.title}
             onChange={handleEditChange}
-            sx={{ mb: 2 }}
+            sx={inputStyles}
           />
           <TextField
             margin="dense"
             name="director"
             label="Director"
             type="text"
-            fullWidth
+            style={{width:'100%'}}
             variant="standard"
             value={editMovie.director}
             onChange={handleEditChange}
-            sx={{ mb: 2 }}
+            sx={inputStyles}
           />
           <TextField
             margin="dense"
             name="genre"
             label="Genre"
             type="text"
-            fullWidth
+            style={{width:'100%'}}
             variant="standard"
             value={editMovie.genre}
             onChange={handleEditChange}
-            sx={{ mb: 2 }}
+            sx={inputStyles}
           />
           <TextField
             margin="dense"
             name="duration"
             label="Duration"
             type="text"
-            fullWidth
+            style={{width:'100%'}}
             variant="standard"
             value={editMovie.duration}
             onChange={handleEditChange}
-            sx={{ mb: 2 }}
+            sx={inputStyles}
           />
           <TextField
             margin="dense"
             name="image"
             label="Image URL"
             type="text"
-            fullWidth
+            style={{width:'100%'}}
             variant="standard"
             value={editMovie.image}
             onChange={handleEditChange}
-            sx={{ mb: 2 }}
+            sx={inputStyles}
           />
           <Box display="flex" justifyContent="space-between">
             <Button type="submit" variant="contained" color="primary">Save</Button>

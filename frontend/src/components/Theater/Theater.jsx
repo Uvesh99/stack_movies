@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import { getAllTheatres, updateTheatre, deleteTheatre } from '../../api/Theater_api/Theater.js';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
+import { useState, useEffect } from 'react';
+import { getAllTheatres, updateTheatre, deleteTheatre } from '../../api/Theater_api/Theater.js';
 import { useNavigate } from 'react-router-dom';
 
 function Theater() {
@@ -15,10 +15,12 @@ function Theater() {
   const [editTheatre, setEditTheatre] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   
-  const userType = localStorage.getItem("userType") || ""; 
+  const userType = localStorage.getItem("userType") || "undefined"; 
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    // Get all theaters 
     const fetchTheatres = async () => {
       try {
         const data = await getAllTheatres();
@@ -30,6 +32,7 @@ function Theater() {
     fetchTheatres();
   }, []);
 
+  // Edit Theater Information
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditTheatre({
@@ -38,6 +41,7 @@ function Theater() {
     });
   };
 
+  // Update Theater
   const handleUpdateTheatre = async (e) => {
     e.preventDefault();
     try {
@@ -53,8 +57,9 @@ function Theater() {
     }
   };
 
+  // Delete Theater
   const handleDeleteTheatre = async (id, e) => {
-    e.stopPropagation(); // Stop event from propagating to the Card's onClick
+    e.stopPropagation();
     try {
       console.log('Deleting theater with ID:', id);
       const response = await deleteTheatre(id);
@@ -63,24 +68,44 @@ function Theater() {
       setTheatres(theatres.filter(theatre => theatre._id !== id));
       
       alert('Theater deleted successfully!');
-    } catch (error) {
+    } catch (e) {
       alert('You are not authorized to delete this theater');
+      console.log('error',e);
+      
     }
   };
 
+  // Cancel To Edit
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditTheatre(null);
   };
 
+  // Move To Particuler Theater
   const handleTheatreClick = (theatreId) => {
     navigate(`/theater/${theatreId}/movies`);
   };
 
   const handleEditClick = (theatre, e) => {
-    e.stopPropagation(); // Stop event from propagating to the Card's onClick
+    e.stopPropagation();
     setIsEditing(true);
     setEditTheatre(theatre);
+  };
+
+  const inputStyles = {
+    mb: 2,
+    '& .MuiInputBase-input': {
+      color: 'white',
+    },
+    '& .MuiFormLabel-root': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottom: '1px solid white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottom: '2px solid white',
+    },
   };
 
   return (
@@ -115,50 +140,50 @@ function Theater() {
       </Grid>
       {isEditing && userType === 'Admin' && (
         <Box component="form" onSubmit={handleUpdateTheatre} sx={{ mt: 4 }}>
-          <TextField
-            margin="dense"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={editTheatre.name}
-            onChange={handleEditChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            name="city"
-            label="City"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={editTheatre.city}
-            onChange={handleEditChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            name="ticketPrice"
-            label="Ticket Price"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={editTheatre.ticketPrice}
-            onChange={handleEditChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            name="seats"
-            label="Seats"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={editTheatre.seats}
-            onChange={handleEditChange}
-            sx={{ mb: 2 }}
-          />
+        <TextField
+      margin="dense"
+      name="name"
+      label="Name"
+      type="text"
+      style={{ width: '100%' }}
+      variant="standard"
+      value={editTheatre.name}
+      onChange={handleEditChange}
+      sx={inputStyles}
+    />
+    <TextField
+      margin="dense"
+      name="city"
+      label="City"
+      type="text"
+      style={{ width: '100%' }}
+      variant="standard"
+      value={editTheatre.city}
+      onChange={handleEditChange}
+      sx={inputStyles}
+    />
+    <TextField
+      margin="dense"
+      name="ticketPrice"
+      label="Ticket Price"
+      type="text"
+      style={{ width: '100%' }}
+      variant="standard"
+      value={editTheatre.ticketPrice}
+      onChange={handleEditChange}
+      sx={inputStyles}
+    />
+    <TextField
+      margin="dense"
+      name="seats"
+      label="Seats"
+      type="text"
+      style={{ width: '100%' }}
+      variant="standard"
+      value={editTheatre.seats}
+      onChange={handleEditChange}
+      sx={inputStyles}
+    />
           <Box display="flex" justifyContent="space-between">
             <Button type="submit" variant="contained" color="primary">Save</Button>
             <Button variant="contained" color="secondary" onClick={handleCancelEdit}>Cancel</Button>

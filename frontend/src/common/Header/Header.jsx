@@ -36,7 +36,7 @@ function Header() {
     description: '',
     duration: '',
     startDate: '',
-    endDate: '',
+    endDate: ''
   }); // New state for movie form
   
   const userEmail = localStorage.getItem("userEmail") || "";
@@ -44,12 +44,16 @@ function Header() {
   const userType = localStorage.getItem("userType") || ""; 
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     document.body.style.inert = openTheaterDialog || openMovieDialog ? 'true' : 'false';
     return () => {
       document.body.style.inert = 'false';
     };
   }, [openTheaterDialog, openMovieDialog]);
+
+  
 
   const handleLogout = () => {
     localStorage.removeItem("userEmail");
@@ -60,11 +64,11 @@ function Header() {
   };
 
   const handleOpenTheaterDialog = () => {
-    setOpenTheaterDialog(true);
+    setOpenTheaterDialog(true); // Open Theater dialog
   };
 
   const handleCloseTheaterDialog = () => {
-    setOpenTheaterDialog(false);
+    setOpenTheaterDialog(false); // close Theater dialog
   };
 
   const handleOpenMovieDialog = () => {
@@ -125,7 +129,7 @@ function Header() {
       });
   
       if (!response.ok) {
-        throw new Error(`Admin can create only one theater`);
+        throw new Error('Admin can create only one theater');
       }
   
       const result = await response.json();
@@ -178,7 +182,7 @@ function Header() {
       endDate: movie.endDate,
       image: movie.image,
       trailer: movie.trailer,
-      adminId: adminId, // Pass adminId along with movie data
+      adminId: adminId,
     };
   
     try {
@@ -226,36 +230,45 @@ function Header() {
               <path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm.001 6c-.001 0-.001 0 0 0h-.465l-2.667-4H20l.001 4zM15.5 15 10 18v-6l5.5 3zm-.964-6-2.667-4h2.596l2.667 4h-2.596zm-2.404 0H9.536L6.869 5h2.596l2.667 4zM4 5h.465l2.667 4H4V5z" fill="#ffffff" className="fill-000000"></path>
             </svg>
           </Box>
-          <Box display={'flex'} marginLeft={'auto'}>
-            <Tabs textColor='inherit' indicatorColor='secondary' value={value} onChange={(e,val)=>setValue(val)}>
+          <Box display={'flex'} marginLeft={'auto'} sx={{cursor:'pointer'}}>
+            <Tabs textColor='inherit' indicatorColor='secondary' onChange={(e,val)=>setValue(val)}>
               <Tab label="Home" component={Link} to="/" sx={{color:"white"}} />
               <Tab label="Theater" component={Link} to="/theater" sx={{color:"white"}} />
               <Tab label="Movies" component={Link} to="/movie" sx={{color:"white"}} />
               {userType === 'Admin' && (
-                <>
+                <Box>
                   <Tab label="Add Your Theater" onClick={handleOpenTheaterDialog} sx={{ color: "white" }} />
                   <Tab label="Add Movie" onClick={handleOpenMovieDialog} sx={{ color: "white" }} /> {/* New Tab for adding movie */}
-                </>
+                </Box>
               )}
               {userInitial ? (
                 <Box display="flex" alignItems="center">
-                  <Box
-                    sx={{
-                      width: 40,
-                      height: 40,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '50%',
-                      backgroundColor: '#1b1b1b',
-                      color: 'white',
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      marginRight: 2,
-                    }}
-                  >
-                    {userInitial}
-                  </Box>
+                <Box
+                  sx={{
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '50%',
+                  backgroundColor: '#1b1b1b',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  marginRight: 2,
+                  cursor: 'pointer', 
+                }}
+                onClick={() => {
+                  if (userType === 'Admin') {
+                    navigate('/admin');
+                  } 
+                  else if(userType === 'User'){
+                    navigate('/user');
+                  }
+                }}
+              >
+                {userInitial}
+                </Box>
                   <Button
                     variant="outlined"
                     sx={{ color: "white", borderColor: "white" }}
@@ -273,7 +286,7 @@ function Header() {
       </AppBar>
 
       {/* Theater Dialog */}
-      <Dialog open={openTheaterDialog} onClose={handleCloseTheaterDialog} fullWidth>
+      <Dialog open={openTheaterDialog} onClose={handleCloseTheaterDialog} style={{width:'100%'}}>
         <DialogTitle>
           Add Theater
           <IconButton
@@ -293,7 +306,7 @@ function Header() {
             name="name"
             label="Name"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -302,7 +315,7 @@ function Header() {
             name="city"
             label="City"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -311,7 +324,7 @@ function Header() {
             name="ticketPrice"
             label="Ticket Price"
             type="number"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -320,7 +333,7 @@ function Header() {
             name="seats"
             label="Seats"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -329,7 +342,7 @@ function Header() {
            name="image"
            label="Image URL"
            type="text"
-           fullWidth
+           style={{ width: '100%' }}
            variant="standard"
            onChange={handleTheaterChange}
           />
@@ -341,7 +354,7 @@ function Header() {
       </Dialog>
 
       {/* Movie Dialog */}
-      <Dialog open={openMovieDialog} onClose={handleCloseMovieDialog} fullWidth>
+      <Dialog open={openMovieDialog} onClose={handleCloseMovieDialog} style={{width:'100%'}}>
         <DialogTitle>
           Add Movie
           <IconButton
@@ -361,7 +374,7 @@ function Header() {
             name="title"
             label="Title"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -370,7 +383,7 @@ function Header() {
             name="image"
             label="Image URL"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -379,7 +392,7 @@ function Header() {
             name="language"
             label="Language"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -388,7 +401,7 @@ function Header() {
             name="genre"
             label="Genre"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -397,7 +410,7 @@ function Header() {
             name="director"
             label="Director"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -406,7 +419,7 @@ function Header() {
             name="trailer"
             label="Trailer URL"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -415,7 +428,7 @@ function Header() {
             name="description"
             label="Description"
             type="text"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -424,7 +437,7 @@ function Header() {
             name="duration"
             label="Duration (in minutes)"
             type="number"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -433,7 +446,7 @@ function Header() {
             name="startDate"
             label="Start Date"
             type="date"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             onChange={handleMovieChange}
@@ -443,7 +456,7 @@ function Header() {
             name="endDate"
             label="End Date"
             type="date"
-            fullWidth
+            style={{ width: '100%' }}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             onChange={handleMovieChange}

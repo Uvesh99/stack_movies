@@ -4,18 +4,16 @@ import FormLabel from '@mui/material/FormLabel';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import { Signup, Login } from '../../api/Authentication_api/auth';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AuthForm() {
   const labelStyle = { mt: 1, mb: 1 };
   const [isSignup, setIsSignup] = useState(false);
-  // const [users, setUsers] = useState([]);
   const [userType, setUserType] = useState("");
-  
   const [secretKey, setSecretKey] = useState("");
   const [input, setInput] = useState({
     name: "",
@@ -23,72 +21,75 @@ export default function AuthForm() {
     password: "",
     phone: "",
   });
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const handleInputValue = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (userType === "") {
       alert("Please select a user type.");
       return;
     }
-    
-    const endpoint = userType === 'Admin' ? "http://localhost:5000/api/admin/signup" : "http://localhost:5000/api/users/register";
-    
+
+    //const endpoint = userType === 'Admin' ? "http://localhost:5000/api/admin/signup" : "http://localhost:5000/api/users/register";
+
     try {
-      const res = await axios.post(endpoint, { ...input, userType, secretKey: userType === 'Admin' ? input.name : undefined });
-      console.log(res.data);
-  
+      const res = await Signup(input, userType, secretKey);
+      console.log(res);
+
       if (userType === 'Admin') {
         alert(`Signup successful! Your Secret Key is: ${input.name}. Please keep it safe.`);
       } else {
         alert("Signup successful! You can now log in.");
       }
-      
       setInput({ name: "", email: "", password: "", phone: "" });
       setIsSignup(false);
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err.message);
       alert("An error occurred during signup.");
     }
   };
-  
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-  const endpoint = userType === 'Admin' ? "http://localhost:5000/api/admin/login" : "http://localhost:5000/api/users/login";
+    //const endpoint = userType === 'Admin' ? "http://localhost:5000/api/admin/login" : "http://localhost:5000/api/users/login";
 
-  try {
-    const res = await axios.post(endpoint, { ...input, secretKey: userType === 'Admin' ? secretKey : undefined });
-    console.log(res.data);
-    
-    // localStorage.setItem(userType === 'Admin' ? `${input.name}_token` : "token", res.data.token);
-    // localStorage.setItem("userEmail", input.email); 
-    // localStorage.setItem("userType", userType);
+    try {
+      const res = await Login(input, userType, secretKey);
+      console.log('login', res);
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userEmail", input.email); 
+      // localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("userEmail", input.email);
       localStorage.setItem("userType", userType);
-      localStorage.setItem("admin", res.data.admin);
-      console.log(res.data.admin)
-    
-    navigate("/");
-    window.location.reload();
-  } catch (err) {
-    console.log(err.message);
-    alert("Invalid credentials or secret key.");
-  } finally {
-    setInput({ name: "", email: "", password: "", phone: "" });
-  }
+
+      if (userType === 'Admin') {
+        localStorage.setItem("adminId", res.id);
+      } else if (userType === 'User') {
+        localStorage.setItem("userId", res.user._id);
+      }
+      console.log('adminId', localStorage.getItem('adminId'));
+      console.log('userId', localStorage.getItem('userId'));
+
+      navigate("/");
+      window.location.reload();
+    }
+    catch (err) {
+      console.log(err.message);
+      alert("Invalid credentials or secret key.");
+    }
+    finally {
+      setInput({ name: "", email: "", password: "", phone: "" });
+    }
   };
-  
 
   return (
     <>
-   
       <Dialog open={true} PaperProps={{ style: { borderRadius: 20, overflow: 'hidden', width: 500 } }}>
         <Box sx={{ ml: 'auto', padding: 1 }}>
           <IconButton component={Link} to="/">
@@ -126,7 +127,7 @@ export default function AuthForm() {
           <Typography paddingLeft={3} variant='h6' display={"flex"} textAlign={'left'}>
             {isSignup ? "" : "Don't have an account"}
             <Typography variant='h6' paddingLeft={2}>
-              <Button sx={{ borderRadius: 10 }} fullWidth variant='standard' onClick={() => setIsSignup(!isSignup)}>
+              <Button sx={{ borderRadius: 10 }} style={{ width: '100%' }} variant='standard' onClick={() => setIsSignup(!isSignup)}>
                 {isSignup ? "Login" : "Sign Up"}
               </Button>
             </Typography>
@@ -167,6 +168,8 @@ export default function AuthForm() {
               name='password'
               variant='standard'
               margin='normal'
+              error={input.password.length > 0 && input.password.length < 6}
+              helperText={input.password.length > 0 && input.password.length < 6 ? "Password must be at least 6 characters long" : ""}
             />
             {isSignup && (
               <>
@@ -179,7 +182,10 @@ export default function AuthForm() {
                   variant='standard'
                   margin='normal'
                   sx={{ mb: 4 }}
+                  error={input.phone.length > 0 && input.phone.length !== 10}
+                  helperText={input.phone.length > 0 && input.phone.length !== 10 ? "Phone number must be exactly 10 digits" : ""}
                 />
+
               </>
             )}
 
@@ -198,11 +204,11 @@ export default function AuthForm() {
               </>
             )}
 
-            <Button 
-              type='submit' 
-              sx={{ mt: 2, borderRadius: 10 }} 
-              fullWidth 
-              variant='contained' 
+            <Button
+              type='submit'
+              sx={{ mt: 2, borderRadius: 10 }}
+              style={{ width: '100%' }}
+              variant='contained'
               bgcolor='#1b1b1b'
             >
               {isSignup ? "Sign Up" : "Login"}

@@ -1,4 +1,7 @@
- .home {
+h1{
+  color: #fff;
+}
+.home {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,12 +32,6 @@
   font-size: 90px;
   text-transform: uppercase;
   font-weight: 800;
-  background-image: url("../../../public/images/texure.jpg");
-  background-repeat: repeat;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-font-smoothing: antialiased;
 }
 .coverImage::after {
   content: "";
@@ -44,7 +41,7 @@
   width: 100%;
   height: 100vh;
   z-index: 88;
-  background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
 }
 .homeContainer .rating {
   margin: 30px 0;
@@ -107,6 +104,40 @@
   font-weight: 500;
   letter-spacing: 2px;
   transition: 0.5s;
+}
+.trailer-btn{
+  display: flex;
+  background: transparent;
+}
+
+.play-btn{
+  transform: translate(17rem,11rem);
+}
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+}
+
+video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.close-btn {
+  position: absolute;
+  top: 4rem;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: rgb(8, 8, 8);
 }
 .mragin {
   margin-top: 50%;
