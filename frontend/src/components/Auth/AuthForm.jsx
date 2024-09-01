@@ -97,7 +97,9 @@ export default function AuthForm() {
           </IconButton>
         </Box>
         <Box>
-          <Box display={'flex'} >
+          <Box display={'flex'} sx={{
+            transform: 'translateY(-2rem)', // Adjust the value as needed
+          }} >
             <Typography padding={3} variant='h5' textAlign={'left'}>
               {isSignup ? "Sign Up as" : "Login as"}
             </Typography>
@@ -127,7 +129,7 @@ export default function AuthForm() {
           <Typography paddingLeft={3} variant='h6' display={"flex"} textAlign={'left'}>
             {isSignup ? "" : "Don't have an account"}
             <Typography variant='h6' paddingLeft={2}>
-              <Button sx={{ borderRadius: 10 }} style={{ width: '100%' }} variant='standard' onClick={() => setIsSignup(!isSignup)}>
+              <Button sx={{ borderRadius: 10 , transform: 'translateY(-2rem)' }} style={{ width: '100%' }} variant='standard' onClick={() => setIsSignup(!isSignup)}>
                 {isSignup ? "Login" : "Sign Up"}
               </Button>
             </Typography>
@@ -135,7 +137,7 @@ export default function AuthForm() {
         </Box>
 
         <form onSubmit={isSignup ? handleSubmit : handleLoginSubmit} >
-          <Box padding={6} display={"flex"} justifyContent={"center"} flexDirection="column" width={400} margin="auto" alignContent={"center"}>
+          <Box padding={6}  sx={{transform: 'translateY(-2rem)' }} display={"flex"} justifyContent={"center"} flexDirection="column" width={400} margin="auto" alignContent={"center"}>
             {isSignup && (
               <>
                 <FormLabel>Name</FormLabel>
@@ -214,18 +216,18 @@ export default function AuthForm() {
               {isSignup ? "Sign Up" : "Login"}
             </Button> */}
             <Button
-  type='submit'
-  sx={{ 
-    mt: 2, 
-    borderRadius: 10, 
-    transform: 'translateY(-1.7rem)', // Adjust the value as needed
-  }}
-  style={{ width: '100%' }}
-  variant='contained'
-  bgcolor='#1b1b1b'
->
-  {isSignup ? "Sign Up" : "Login"}
-</Button>
+              type='submit'
+              sx={{
+                mt: 2,
+                borderRadius: 10,
+                transform: 'translateY(-1.7rem)', // Adjust the value as needed
+              }}
+              style={{ width: '100%' }}
+              variant='contained'
+              bgcolor='#1b1b1b'
+            >
+              {isSignup ? "Sign Up" : "Login"}
+            </Button>
 
           </Box>
         </form>
