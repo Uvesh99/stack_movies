@@ -9,6 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Dialog } from '@mui/material';
 
 function TheaterMovies() {
   const { theatreId } = useParams();
@@ -91,10 +92,10 @@ function TheaterMovies() {
   const inputStyles = {
     mb: 2,
     '& .MuiInputBase-input': {
-      color: 'white',
+      color: 'black',
     },
     '& .MuiFormLabel-root': {
-      color: 'white',
+      color: 'black',
     },
     '& .MuiInput-underline:before': {
       borderBottom: '1px solid white',
@@ -135,6 +136,7 @@ function TheaterMovies() {
         ))}
       </Grid>
       {isEditing && userType === 'Admin' && (
+        <Dialog open={true} PaperProps={{ style: { borderRadius: 20, overflow: 'hidden', width: 500 } }}>
         <Box component="form" onSubmit={handleUpdateMovie} sx={{ mt: 4 }}>
           <TextField
             margin="dense"
@@ -196,6 +198,7 @@ function TheaterMovies() {
             <Button variant="contained" color="secondary" onClick={handleCancelEdit}>Cancel</Button>
           </Box>
         </Box>
+        </Dialog>
       )}
     </Box>
   );

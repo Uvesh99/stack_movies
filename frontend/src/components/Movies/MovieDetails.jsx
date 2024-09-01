@@ -248,6 +248,8 @@ const MovieDetails = () => {
           <p><b>Language</b>: {movie.language}</p>
           <p><b>Duration</b>: {movie.duration}</p>
           <p><b>Director</b>: {movie.director}</p>
+          <p><b> startDate</b>:{movie. startDate}</p>
+          <p><b>endDate</b>:{movie.endDate}</p>
           <p>{movie.description}</p>
           
           <div className="trailer-container">

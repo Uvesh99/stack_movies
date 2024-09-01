@@ -13,7 +13,7 @@ const Footer = () => {
               <li>FAQ</li>
               <li>Watch List</li>
             </ul>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque molestiae inventore iste eligendi commodi quasi sed, saepe iure voluptatum quidem, totam ipsa. Inventore fugit adipisci deserunt itaque odio error quibusdam.</p>
+            <p>Welcome to Movie Stack! We strive to bring you the best movie-watching experience, offering a seamless platform to explore and book tickets for your favorite movies. Our commitment is to provide quality service and an easy-to-navigate interface, ensuring you enjoy every moment of your cinematic journey. Whether you're browsing the latest releases or revisiting classics, we've got you covered. Thank you for choosing us as your go-to destination for entertainment. We look forward to serving you!</p>
           </div>
           <div className='box'>
             <h3>Follow Us</h3>
