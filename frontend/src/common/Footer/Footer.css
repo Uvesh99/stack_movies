@@ -39,3 +39,11 @@ footer {
       grid-gap: 30px;
     }
   }
+
+  /***/
+  .whats{
+    /* margin-left: 93rem; */
+    transform: translateY(1rem);
+    cursor: pointer;
+    /* animation: up-down 2.9s ease-in-out infinite; */
+  }

@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Dialog } from '@mui/material';
+import ContactLink from '../../common/ContactLink/ContactLink';
 
 function TheaterMovies() {
   const { theatreId } = useParams();
@@ -135,6 +136,11 @@ function TheaterMovies() {
           </Grid>
         ))}
       </Grid>
+      <div className="contact" style={{ display: 'flex', alignItems: 'center', marginLeft: '42rem', marginTop: '2rem' }}>
+      <p style={{ color: 'white', fontSize: '2rem', marginRight: '0rem',paddingRight:'1rem' }}>
+        Feel free to contact
+      </p><ContactLink />
+      </div>
       {isEditing && userType === 'Admin' && (
         <Dialog open={true} PaperProps={{ style: { borderRadius: 20, overflow: 'hidden', width: 500 } }}>
         <Box component="form" onSubmit={handleUpdateMovie} sx={{ mt: 4 }}>
