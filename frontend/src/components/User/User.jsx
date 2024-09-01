@@ -18,18 +18,18 @@ function User() {
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
       // Fetch user profile
-      axios.get(`http://localhost:5000/api/users/profile/${storedUserId}`)
+      axios.get(`https://stack-movies4-20.onrender.com/api/users/profile/${storedUserId}`)
         .then(response => {
           setUserData(response.data);
           
           // Fetch user reservations by email
-          axios.get(`http://localhost:5000/api/reservations/email/${response.data.email}`)
+          axios.get(`https://stack-movies4-20.onrender.com/api/reservations/email/${response.data.email}`)
             .then(reservationResponse => {
               setReservations(reservationResponse.data);
               
               // Fetch movie details based on movieId from reservations
               const movieRequests = reservationResponse.data.map(reservation => 
-                axios.get(`http://localhost:5000/api/movies/${reservation.movie}`)
+                axios.get(`https://stack-movies4-20.onrender.com/api/movies/${reservation.movie}`)
               );
               console.log(movieRequests);
               // Wait for all movie requests to complete

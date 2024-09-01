@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api/theatres';
+const API_URL = 'https://stack-movies4-20.onrender.com/api/theatres';
 
 const token = localStorage.getItem('token'); 
 
@@ -72,14 +72,14 @@ const token = localStorage.getItem('token');
         'Authorization': `Bearer ${token}`,
       },
     };
-    const res = await axios.put(`http://localhost:5000/api/movies/${id}`, movieData, config);
+    const res = await axios.put(`https://stack-movies4-20.onrender.com/api/movies/${id}`, movieData, config);
     return res.data;
   };
 
   // Delete Movie (By Only Theater Owner)
   export const deleteMovie = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/movies/${id}`, {
+      const response = await axios.delete(`https://stack-movies4-20.onrender.com/api/movies/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -95,7 +95,7 @@ const token = localStorage.getItem('token');
   // Get Admin's Theater
   export const getTheaterData = async (adminId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/theatres/admin/${adminId}`);
+      const response = await axios.get(`https://stack-movies4-20.onrender.com/api/theatres/admin/${adminId}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching theater data:', error);
