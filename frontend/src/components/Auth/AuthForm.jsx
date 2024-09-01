@@ -344,11 +344,11 @@ export default function AuthForm() {
               <Button
                 sx={{
                   borderRadius: 10,
-                  backgroundColor: '#1b1b1b', // Change button color
+                  backgroundColor: '#1976D2', // Change button color
                   color: 'white',
                   width: '100%',
                   '&:hover': {
-                    backgroundColor: '#333', // Darker shade on hover
+                    backgroundColor: '#1976D2', // Darker shade on hover
                   },
                 }}
                 variant='contained'
@@ -432,13 +432,13 @@ export default function AuthForm() {
             <Button
               type='submit'
               sx={{
-                mt: 2,
+                mt: 0,
                 borderRadius: 10,
-                backgroundColor: '#1b1b1b', // Change button color
+                backgroundColor: '#1976D2', // Change button color
                 color: 'white',
                 width: '100%',
                 '&:hover': {
-                  backgroundColor: '#333', // Darker shade on hover
+                  backgroundColor: '#1976D2', // Darker shade on hover
                 },
               }}
               variant='contained'
