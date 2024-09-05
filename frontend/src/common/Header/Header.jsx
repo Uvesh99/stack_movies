@@ -43,8 +43,10 @@ function Header() {
     description: '',
     duration: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    timeSlots: [],
   });
+  const [newTimeSlot, setNewTimeSlot] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false); // State for mobile drawer
 
   const theme = useTheme();
@@ -101,6 +103,13 @@ function Header() {
       [name]: value,
     });
   };
+
+  const handleAddTimeSlot = () => {
+    if (newTimeSlot) {
+      setMovie({ ...movie, timeSlots: [...movie.timeSlots, newTimeSlot] });
+      setNewTimeSlot('');
+    }
+  };
 
   const handleSaveTheater = async () => {
     if (!theater.name || !theater.city || !theater.ticketPrice || !theater.seats || !theater.image) {
@@ -185,6 +194,7 @@ function Header() {
       image: movie.image,
       trailer: movie.trailer,
       adminId: adminId,
+      timeSlots: movie.timeSlots,
     };
 
     try {
@@ -215,6 +225,7 @@ function Header() {
         endDate: '',
         image: '',
         trailer: '',
+        timeSlots: [],
       });
       handleCloseMovieDialog();
     } catch (error) {
@@ -567,6 +578,24 @@ function Header() {
             }}
           />
         </DialogContent>
+        {/* Time Slots Section */}
+        <TextField
+            margin="dense"
+            label="Add Time Slot"
+            type="text"
+            style={{ width: '100%' }}
+            variant="standard"
+            value={newTimeSlot}
+            onChange={(e) => setNewTimeSlot(e.target.value)}
+          />
+          <Button onClick={handleAddTimeSlot}>Add Time Slot</Button>
+          <Box>
+            {movie.timeSlots.map((slot, index) => (
+              <Box key={index}>
+                {slot}
+              </Box>
+            ))}
+          </Box>
         <DialogActions>
           <Button onClick={handleCloseMovieDialog} color="secondary">Cancel</Button>
           <Button onClick={handleSaveMovie} color="primary">Save</Button>

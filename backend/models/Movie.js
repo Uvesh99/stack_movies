@@ -34,7 +34,7 @@ const movieSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   theater: { type: mongoose.Types.ObjectId, ref: "Theatre", required: true },
-  times: [String],
+  timeSlots: { type: [String], required: true },
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
