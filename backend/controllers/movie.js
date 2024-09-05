@@ -110,7 +110,7 @@ console.log(theaters); // This should print the theater details if it exists.
       return res.status(404).json({ message: "Theater not found for this admin" });
     }
   
-    const { title, description, language, genre, director, image, duration, startDate, endDate, trailer } = req.body;
+    const { title, description, language, genre, director, image, duration, startDate, endDate, trailer, times } = req.body;
   
     const isValidString = (value) => typeof value === 'string' && value.trim() !== '';
     const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
@@ -139,7 +139,8 @@ console.log(theaters); // This should print the theater details if it exists.
         endDate,
         trailer,
         admin: adminId,
-        theater: theater._id,  
+        theater: theater._id,
+        times  
       });
   
       movie = await movie.save();  
