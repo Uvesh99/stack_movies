@@ -47,7 +47,7 @@ export const getMovie = async (movieId) => {
 
 export const updateUserProfile = async (userId, editData) => {
   try {
-    const res = await axios.put(`http://localhost:5000/api/users/${userId}`, editData);
+    const res = await axios.put(`https://stack-movies4-20.onrender.com/api/users/${userId}`, editData);
     return res.data;
   } catch (err) {
     console.error('Error updating profile:', err.message);
