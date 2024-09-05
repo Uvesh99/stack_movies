@@ -601,7 +601,7 @@ function Header() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/theatres/', {
+      const response = await fetch('https://stack-movies4-20.onrender.com/api/theatres/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
