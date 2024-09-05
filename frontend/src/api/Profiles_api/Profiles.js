@@ -11,7 +11,17 @@ export const getAdminData = async (adminId) => {    // Admin Information
   }
 };
 
-
+//get UserData
+export const getUserData= async (userId)=>{
+  try{
+    const response =await axios.get(`http://localhost:5000/api/users/profile/${userId}`);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+    throw error;
+  }
+}
 
 // Get Reservation Information By User's Email
 export const getReservations = async (email) => {
@@ -34,3 +44,14 @@ export const getMovie = async (movieId) => {
     throw error;
   }
 };
+
+export const updateUserProfile = async (userId, editData) => {
+  try {
+    const res = await axios.put(`http://localhost:5000/api/users/${userId}`, editData);
+    return res.data;
+  } catch (err) {
+    console.error('Error updating profile:', err.message);
+    throw err;
+  }
+};
+

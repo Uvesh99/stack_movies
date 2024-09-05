@@ -170,7 +170,7 @@ exports.getBookedSeats = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const reservations = await Reservation.find({ email });
+    const reservations = await Reservation.find({ email }).populate('movie theatre') ;
     res.status(200).json(reservations);
   } catch (error) {
     res.status(500).json({ message: "Error fetching reservations", error });
