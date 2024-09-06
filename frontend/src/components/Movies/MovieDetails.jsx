@@ -1,4 +1,3 @@
-// /**check */
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -31,7 +30,6 @@ const MovieDetails = () => {
   const [otp, setOtp] = useState('');
 
   const dateOptions = ['2024-09-01', '2024-09-02', '2024-09-03', '2024-09-04', '2024-09-05'];
-  const timeOptions = ['10:00 AM', '01:00 PM', '04:00 PM', '07:00 PM', '10:00 PM'];
 
   useEffect(() => {
     const fetchMovieDetails = async () => {   // Fetching Movie Details
@@ -139,8 +137,7 @@ const MovieDetails = () => {
       console.log('user_email',userInfo.email);
       
       await sendOTP(userInfo.email);
-      // console.log('OTP sent successfully');
-     alert('OTP sent successfully to your email');
+      console.log('OTP sent successfully');
     } catch (error) {
       console.error('Error sending OTP:', error);
       alert('Error sending OTP. Please try again.');
@@ -190,7 +187,7 @@ const MovieDetails = () => {
 
     alert('Your Tickets Are Booked!'); 
     console.log('Payment confirmed for amount:', totalAmount);
-    alert('Payment Successfully done');
+ 
     setSeats([]);
     setDate('');
     setTime('');
@@ -228,7 +225,7 @@ const MovieDetails = () => {
   return (
     <>
     <Box className="container">
-      {/* <div className="movie-details-container">
+      <div className="movie-details-container">
         <div className="images-container">
           <img
             src={movie.image}
@@ -249,14 +246,12 @@ const MovieDetails = () => {
           <p><b>Language</b>: {movie.language}</p>
           <p><b>Duration</b>: {movie.duration}</p>
           <p><b>Director</b>: {movie.director}</p>
-          <p><b> startDate</b>:{movie. startDate}</p>
-          <p><b>endDate</b>:{movie.endDate}</p>
           <p>{movie.description}</p>
           
           <div className="trailer-container">
-            <h2>Watch the Trailer</h2>*/}
+            <h2>Watch the Trailer</h2>
             {/* <video src={movie.trailer} controls width="100%" className="trailer-video"/> */}
-           {/*} <iframe src={movie.trailer} width="100%" className="trailer-video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write;" referrerPolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe src={movie.trailer} width="100%" className="trailer-video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write;" referrerPolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
 
           <div className="book-btn">
@@ -270,56 +265,7 @@ const MovieDetails = () => {
             </Button>
           </div>
         </div>
-      </div> */}
-      <div className="movie-details-container">
-          <div className="images-container">
-            <img
-              src={movie.image}
-              alt="Large Movie"
-              className="large-image"
-            />
-            <img
-              src={movie.image}
-              alt="Small Movie"
-              className="small-image"
-            />
-          </div>
-
-          <div className="content-container">
-            <h1>{movie.title}</h1>
-            <p><b>Genre</b>: {movie.genre}</p>
-            <p><b>Language</b>: {movie.language}</p>
-            <p><b>Duration</b>: {movie.duration}</p>
-            <p><b>Director</b>: {movie.director}</p>
-            <p><b>startDate</b>: {movie.startDate}</p>
-            <p><b>endDate</b>: {movie.endDate}</p>
-            <p>{movie.description}</p>
-
-            <div className="trailer-container">
-              <h2>Watch the Trailer</h2>
-              <iframe 
-                src={movie.trailer} 
-                width="100%" 
-                className="trailer-video" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write;" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-              ></iframe>
-            </div>
-
-            <div className="book-btn">
-              <Button 
-                variant="contained" 
-                className="book-movie-button"
-                sx={{ marginTop: 2 }} 
-                onClick={handleBookingDialogOpen}
-              >
-                Book Movie
-              </Button>
-            </div>
-          </div>
-        </div>
+      </div>
 
       {/* Booking Dialog */}
       <Dialog open={openBookingDialog} onClose={handleBookingDialogClose} maxWidth="md" fullWidth>
@@ -342,19 +288,24 @@ const MovieDetails = () => {
           </Grid>
           <Typography>Select Time:</Typography>
           <Grid container spacing={1} sx={{ marginTop: 2 }}>
-            {timeOptions.map((time) => (
-              <Grid item xs={4} key={time}>
+            {movie.timeSlots.map((slot, index) => (
+              <Grid item xs={4} key={index}>
                 <Button
-                  variant={Time === time ? "contained" : "outlined"}
-                  onClick={() => handleTimeClick(time)}
-                  className={`time-button ${Time === time ? "contained" : "outlined"}`}
+                  variant={Time === slot ? "contained" : "outlined"}
+                  onClick={() => handleTimeClick(slot)}
+                  className={`time-button ${Time === slot ? "contained" : "outlined"}`}
                   sx={{ width: '100%' }}
                 >
-                  {time}
+                  {slot}
                 </Button>
               </Grid>
             ))}
-          </Grid>
+           
+          </Grid> 
+          {/* <ul>
+           {movie.timeSlots.map((slot, index) => (
+            {/* <li key={index}>{slot}</li> */}
+        
           <Typography variant="h6" sx={{ marginTop: 2 }}>Select Seats:</Typography>
           <div className="seating-chart" style={{ marginTop: '10px' }}>
             {renderSeats()}
@@ -389,7 +340,6 @@ const MovieDetails = () => {
             name="email"
             value={userInfo.email}
             onChange={handleUserChange}
-            placeholder='Enter your login email only'
           />
           <TextField
             margin="dense"
