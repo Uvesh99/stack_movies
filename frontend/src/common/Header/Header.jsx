@@ -193,7 +193,7 @@ function Header() {
       adminId: adminId,
       timeSlots: movie.timeSlots,
     };
-  
+    
     try {
       const response = await fetch('http://localhost:5000/api/movies/', {
         method: 'POST',
@@ -499,6 +499,18 @@ function Header() {
       </Dialog>
     </>
   );
+  document.getElementById('searchBar').addEventListener('input', function (e) {
+    const searchQuery = e.target.value.toLowerCase();
+    const movies = document.querySelectorAll('.movie-item'); // Replace with the actual movie item class
+    movies.forEach(movie => {
+        const title = movie.querySelector('.movie-title').textContent.toLowerCase(); // Replace with the title element class
+        if (title.includes(searchQuery)) {
+            movie.style.display = 'block'; // Show the movie
+        } else {
+            movie.style.display = 'none'; // Hide the movie
+        }
+    });
+});
 }
 
 export default Header;
