@@ -1,68 +1,80 @@
-import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { useEffect } from 'react';
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useEffect } from "react";
 import {
   Alert,
   alpha,
   Card,
   CardContent,
+  Divider,
+  Drawer,
   Grid,
   List,
   ListItem,
+  ListItemText,
   Snackbar,
   styled,
   Typography,
-} from '@mui/material';
-import { getAllMovies } from '../../api/Movie_api/getAllmovie';
+  useMediaQuery,
+} from "@mui/material";
+import { getAllMovies } from "../../api/Movie_api/getAllmovie";
 
 function Header() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen); // Function to toggle drawer
+  };
+  const isBelow1200px = useMediaQuery("(max-width:1200px)");
+
+  // making drawer
   const [value, setValue] = useState(0);
   const [openTheaterDialog, setOpenTheaterDialog] = useState(false);
   const [showPopup, setShowPopup] = useState();
   const [openMovieDialog, setOpenMovieDialog] = useState(false); // New state for movie dialog
   const [theater, setTheater] = useState({
-    name: '',
-    city: '',
-    ticketPrice: '',
-    seats: '',
-    image: '',
+    name: "",
+    city: "",
+    ticketPrice: "",
+    seats: "",
+    image: "",
   });
   const [movie, setMovie] = useState({
-    title: '',
-    image: '',
-    language: '',
-    genre: '',
-    director: '',
-    trailer: '',
-    description: '',
-    duration: '',
-    startDate: '',
-    endDate: '',
+    title: "",
+    image: "",
+    language: "",
+    genre: "",
+    director: "",
+    trailer: "",
+    description: "",
+    duration: "",
+    startDate: "",
+    endDate: "",
     timeSlots: [],
   }); // New state for movie form
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState(movies);
-  const [newTimeSlot, setNewTimeSlot] = useState('');
-  const userEmail = localStorage.getItem('userEmail') || '';
-  const userInitial = userEmail ? userEmail.charAt(0).toUpperCase() : '';
-  const userType = localStorage.getItem('userType') || '';
-  console.log('type', userType);
+  const [newTimeSlot, setNewTimeSlot] = useState("");
+  const userEmail = localStorage.getItem("userEmail") || "";
+  const userInitial = userEmail ? userEmail.charAt(0).toUpperCase() : "";
+  const userType = localStorage.getItem("userType") || "";
+  console.log("type", userType);
   const inputRef = useRef(null);
 
   const navigate = useNavigate();
@@ -77,17 +89,17 @@ function Header() {
 
   useEffect(() => {
     document.body.style.inert =
-      openTheaterDialog || openMovieDialog ? 'true' : 'false';
+      openTheaterDialog || openMovieDialog ? "true" : "false";
     return () => {
-      document.body.style.inert = 'false';
+      document.body.style.inert = "false";
     };
   }, [openTheaterDialog, openMovieDialog]);
 
   const handleLogout = () => {
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userType');
-    navigate('/');
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
+    navigate("/");
     window.location.reload();
   };
 
@@ -134,7 +146,7 @@ function Header() {
         movie.title.toLowerCase().includes(query)
       );
       setFilteredMovies(filtered);
-      if (filtered.length === 0 && query !== '') {
+      if (filtered.length === 0 && query !== "") {
         setShowPopup(true);
       } else {
         setShowPopup(false);
@@ -146,7 +158,7 @@ function Header() {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleMovie(filteredMovies[0]._id);
     }
   };
@@ -158,7 +170,7 @@ function Header() {
   const handleAddTimeSlot = () => {
     if (newTimeSlot) {
       setMovie({ ...movie, timeSlots: [...movie.timeSlots, newTimeSlot] });
-      setNewTimeSlot('');
+      setNewTimeSlot("");
     }
   };
 
@@ -170,61 +182,61 @@ function Header() {
       !theater.seats ||
       !theater.image
     ) {
-      alert('Please fill all the fields and provide an image URL.');
+      alert("Please fill all the fields and provide an image URL.");
       return;
     }
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (!token) {
-      alert('You are not authenticated. Please log in.');
+      alert("You are not authenticated. Please log in.");
       return;
     }
 
-    console.log('Token retrieved from localStorage:', token);
+    console.log("Token retrieved from localStorage:", token);
 
     const theaterData = {
       name: theater.name,
       city: theater.city,
       ticketPrice: parseFloat(theater.ticketPrice),
-      seats: theater.seats.split(',').map(Number),
+      seats: theater.seats.split(",").map(Number),
       image: theater.image,
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/theatres/', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/theatres/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(theaterData),
       });
 
       if (!response.ok) {
-        throw new Error('Admin can create only one theater');
+        throw new Error("Admin can create only one theater");
       }
 
       const result = await response.json();
-      console.log('Theater added:', result);
+      console.log("Theater added:", result);
 
       setTheater({
-        name: '',
-        city: '',
-        ticketPrice: '',
-        seats: '',
-        image: '',
+        name: "",
+        city: "",
+        ticketPrice: "",
+        seats: "",
+        image: "",
       });
       handleCloseTheaterDialog();
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       alert(error.message);
     }
   };
 
   const handleMovie = (movieId) => {
     navigate(`/movie/${movieId}`);
-    setQuery('');
+    setQuery("");
     setFilteredMovies([]);
   };
 
@@ -241,21 +253,21 @@ function Header() {
       !movie.image ||
       !movie.trailer
     ) {
-      alert('Please fill all the fields and provide necessary details.');
+      alert("Please fill all the fields and provide necessary details.");
       return;
     }
 
-    const token = localStorage.getItem('token');
-    const adminId = localStorage.getItem('adminId');
+    const token = localStorage.getItem("token");
+    const adminId = localStorage.getItem("adminId");
 
     if (!token) {
       alert(
-        'You are not authenticated or admin ID is missing. Please log in again.'
+        "You are not authenticated or admin ID is missing. Please log in again."
       );
       return;
     }
 
-    console.log('Token retrieved from localStorage:', token);
+    console.log("Token retrieved from localStorage:", token);
 
     const movieData = {
       title: movie.title,
@@ -273,47 +285,55 @@ function Header() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/movies/', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/movies/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(movieData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add movie. Please check your inputs.');
+        throw new Error("Failed to add movie. Please check your inputs.");
       }
 
       const result = await response.json();
-      console.log('Movie added:', result);
+      console.log("Movie added:", result);
 
       setMovie({
-        title: '',
-        description: '',
-        language: '',
-        genre: '',
-        director: '',
-        duration: '',
-        startDate: '',
-        endDate: '',
-        image: '',
-        trailer: '',
+        title: "",
+        description: "",
+        language: "",
+        genre: "",
+        director: "",
+        duration: "",
+        startDate: "",
+        endDate: "",
+        image: "",
+        trailer: "",
         timeSlots: [],
       });
       handleCloseMovieDialog();
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       alert(error.message);
     }
   };
 
   return (
     <>
-      <AppBar position="sticky" sx={{ background: 'black' }}>
+      <AppBar position="sticky" sx={{ background: "black" }}>
         <Toolbar>
-          <Box width={'10%'}>
+          <Box
+            // Align items to the center of nav horizontally
+            sx={{
+              width: "10%",
+              display: "flex",
+              alignItems: "center",
+              margin: "0 50px 0 0",
+            }}
+          >
             <svg
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -328,17 +348,18 @@ function Header() {
           </Box>
           <Box
             sx={{
-              maxWidth: { xs: '100%', sm: '50%', md: '30%' },
-              width: '100%',
+              maxWidth: { xs: "60%", sm: "70%", md: "20%" },
+              width: "100%",
+              minWidth: "200px",
             }}
           >
             <Box
               sx={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                width: '100%',
-                height: '40px',
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "40px",
               }}
             >
               <TextField
@@ -346,68 +367,68 @@ function Header() {
                 value={query}
                 onChange={handleSearch}
                 onKeyPress={handleKeyPress}
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ "aria-label": "search" }}
                 inputRef={inputRef}
                 sx={{
-                  backgroundColor: 'rgba(98, 101, 98, 0.4)',
-                  borderRadius: '6px',
-                  width: '100%',
-                  height: '100%',
-                  paddingRight: '40px',
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    padding: '0 12px',
-                    height: '100%',
-                    '& fieldset': {
-                      border: 'none', // Removes the default border
+                  backgroundColor: "rgba(98, 101, 98, 0.4)",
+                  borderRadius: "6px",
+                  width: "100%",
+                  height: "100%",
+                  paddingRight: "40px",
+                  "& .MuiOutlinedInput-root": {
+                    color: "white",
+                    padding: "0 12px",
+                    height: "100%",
+                    "& fieldset": {
+                      border: "none", // Removes the default border
                     },
-                    '&:hover fieldset': {
-                      border: 'none', // Ensures no border on hover
+                    "&:hover fieldset": {
+                      border: "none", // Ensures no border on hover
                     },
-                    '&.Mui-focused fieldset': {
-                      border: 'none', // Removes outline on focus
+                    "&.Mui-focused fieldset": {
+                      border: "none", // Removes outline on focus
                     },
                   },
                 }}
               />
               <Box
                 sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: '10px',
-                  transform: 'translateY(-50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  pointerEvents: 'none',
+                  position: "absolute",
+                  top: "50%",
+                  right: "10px",
+                  transform: "translateY(-50%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  pointerEvents: "none",
                 }}
               >
                 <SearchIcon />
               </Box>
             </Box>
-            <Box sx={{ position: 'relative', width: '100%' }}>
+            <Box sx={{ position: "relative", width: "100%" }}>
               {filteredMovies.length > 0 && (
                 <List
                   sx={{
-                    width: '100%', // Full width relative to the parent
+                    width: "100%", // Full width relative to the parent
                     zIndex: 9999,
-                    minWidth: '300px',
-                    position: 'absolute',
-                    top: 'calc(100% + 8px)', // Position below the search bar
-                    left: '0', // Align with the left edge of the search bar
-                    backgroundColor: 'rgb(31, 31, 31)',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                    maxHeight: '400px',
-                    overflowY: 'auto', // Ensures scrollability
+                    minWidth: "300px",
+                    position: "absolute",
+                    top: "calc(100% + 8px)", // Position below the search bar
+                    left: "0", // Align with the left edge of the search bar
+                    backgroundColor: "rgb(31, 31, 31)",
+                    border: "1px solid #ccc",
+                    borderRadius: "8px",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    maxHeight: "400px",
+                    overflowY: "auto", // Ensures scrollability
                     padding: 0,
-                    '&::-webkit-scrollbar': {
-                      display: 'none', // Hides the scrollbar
+                    "&::-webkit-scrollbar": {
+                      display: "none", // Hides the scrollbar
                     },
-                    '@media (max-width: 600px)': {
-                      maxWidth: '90%', // Adjust width for smaller screens
-                      left: '5%', // Center it for mobile
+                    "@media (max-width: 600px)": {
+                      maxWidth: "90%", // Adjust width for smaller screens
+                      left: "5%", // Center it for mobile
                     },
                   }}
                 >
@@ -415,24 +436,24 @@ function Header() {
                     <ListItem key={index} sx={{ padding: 0 }}>
                       <Card
                         sx={{
-                          width: '100%',
-                          boxShadow: 'none',
-                          borderBottom: '1px solid white',
-                          cursor: 'pointer',
+                          width: "100%",
+                          boxShadow: "none",
+                          borderBottom: "1px solid white",
+                          cursor: "pointer",
                         }}
                         onClick={() => handleMovie(movie._id)}
                       >
                         <CardContent
                           sx={{
-                            '&:last-child': {
-                              paddingBottom: '8px',
+                            "&:last-child": {
+                              paddingBottom: "8px",
                             },
-                            padding: '8px',
-                            display: 'flex',
-                            gap: '10px',
-                            alignItems: 'center',
-                            color: '#fff',
-                            backgroundColor: 'rgb(31, 31, 31)',
+                            padding: "8px",
+                            display: "flex",
+                            gap: "10px",
+                            alignItems: "center",
+                            color: "#fff",
+                            backgroundColor: "rgb(31, 31, 31)",
                           }}
                         >
                           <Box
@@ -440,10 +461,10 @@ function Header() {
                             src={movie.image}
                             alt={movie.title}
                             sx={{
-                              width: '40px',
-                              height: '50px',
-                              objectFit: 'cover',
-                              borderRadius: '4px',
+                              width: "40px",
+                              height: "50px",
+                              objectFit: "cover",
+                              borderRadius: "4px",
                             }}
                           />
                           <Box>
@@ -451,7 +472,7 @@ function Header() {
                               {movie.title}
                             </Typography>
                             <Box
-                              sx={{ display: 'flex', flexDirection: 'column' }}
+                              sx={{ display: "flex", flexDirection: "column" }}
                             >
                               <Typography
                                 variant="caption"
@@ -486,14 +507,18 @@ function Header() {
                 <Alert
                   onClose={handleClosePopup}
                   severity="info"
-                  sx={{ width: '100%' }}
+                  sx={{ width: "100%" }}
                 >
                   No results found for your query.
                 </Alert>
               </Snackbar>
             )}
           </Box>
-          <Box display={'flex'} marginLeft={'auto'} sx={{ cursor: 'pointer' }}>
+          <Box
+            display={{ xs: "none", md: "flex" }}
+            marginLeft={"auto"}
+            sx={{ cursor: "pointer" }}
+          >
             <Tabs
               textColor="inherit"
               indicatorColor="secondary"
@@ -503,32 +528,32 @@ function Header() {
                 label="Home"
                 component={Link}
                 to="/"
-                sx={{ color: 'white' }}
+                sx={{ color: "white" }}
               />
               <Tab
                 label="Theater"
                 component={Link}
                 to="/theater"
-                sx={{ color: 'white' }}
+                sx={{ color: "white" }}
               />
               <Tab
                 label="Movies"
                 component={Link}
                 to="/movie"
-                sx={{ color: 'white' }}
+                sx={{ color: "white" }}
               />
-              {userType === 'Admin' && (
+              {userType === "Admin" && (
                 <Box>
                   <Tab
                     label="Add Your Theater"
                     onClick={handleOpenTheaterDialog}
-                    sx={{ color: 'white' }}
+                    sx={{ color: "white" }}
                   />
                   <Tab
                     label="Add Movie"
                     onClick={handleOpenMovieDialog}
-                    sx={{ color: 'white' }}
-                  />{' '}
+                    sx={{ color: "white" }}
+                  />{" "}
                   {/* New Tab for adding movie */}
                 </Box>
               )}
@@ -539,22 +564,22 @@ function Header() {
                     sx={{
                       width: 40,
                       height: 40,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '50%',
-                      backgroundColor: '#1b1b1b',
-                      color: 'white',
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "50%",
+                      backgroundColor: "#1b1b1b",
+                      color: "white",
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
                       marginRight: 2,
-                      cursor: 'pointer',
+                      cursor: "pointer",
                     }}
                     onClick={() => {
-                      if (userType === 'Admin') {
-                        navigate('/admin');
-                      } else if (userType === 'User') {
-                        navigate('/user');
+                      if (userType === "Admin") {
+                        navigate("/admin");
+                      } else if (userType === "User") {
+                        navigate("/user");
                       }
                     }}
                   >
@@ -562,7 +587,7 @@ function Header() {
                   </Box>
                   <Button
                     variant="outlined"
-                    sx={{ color: 'white', borderColor: 'white' }}
+                    sx={{ color: "white", borderColor: "white", marginLeft: 2 }}
                     onClick={handleLogout}
                   >
                     Logout
@@ -573,19 +598,190 @@ function Header() {
                   label="Sign Up"
                   component={Link}
                   to="/register"
-                  sx={{ color: 'white' }}
+                  sx={{ color: "white" }}
                 />
               )}
             </Tabs>
           </Box>
+          {userType === "Admin" && isBelow1200px ? (
+            <Box display={{ xs: "flex", md: "none" }} marginLeft={"auto"}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          ) : (
+            <Box display={{ xs: "flex", md: "none" }} marginLeft={"auto"}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
 
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backdropFilter: "blur(10px)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: 250,
+            display: "flex",
+            height: "100%",
+            flexDirection: "column",
+            color: "white",
+          }}
+          role="presentation"
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              position: "absolute",
+              right: "5%",
+              top: "2%",
+              zIndex: "100",
+            }}
+          >
+            <IconButton
+              color="inherit"
+              aria-label="close drawer"
+              edge="end"
+              onClick={handleDrawerToggle}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(225,33,32)",
+                },
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <List>
+            <ListItem
+              button
+              component={Link}
+              to="/"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                },
+              }}
+            >
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/theater"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                },
+              }}
+            >
+              <ListItemText primary="Theater" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/movie"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                },
+              }}
+            >
+              <ListItemText primary="Movies" />
+            </ListItem>
+            {userType === "Admin" && (
+              <>
+                <ListItem
+                  button
+                  onClick={handleOpenTheaterDialog}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    },
+                  }}
+                >
+                  <ListItemText primary="Add Your Theater" />
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={handleOpenMovieDialog}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    },
+                  }}
+                >
+                  <ListItemText primary="Add Movie" />
+                </ListItem>
+              </>
+            )}
+            {userInitial ? (
+              <>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
+                    if (userType === "Admin") {
+                      navigate("/admin");
+                    } else if (userType === "User") {
+                      navigate("/user");
+                    }
+                  }}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)", // Set hover background color
+                    },
+                  }}
+                >
+                  <ListItemText primary={userInitial} />
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={handleLogout}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)", // Set hover background color
+                    },
+                  }}
+                >
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </>
+            ) : (
+              <ListItem button component={Link} to="/register">
+                <ListItemText primary="Sign Up" />
+              </ListItem>
+            )}
+          </List>
+        </Box>
+      </Drawer>
       {/* Theater Dialog */}
       <Dialog
         open={openTheaterDialog}
         onClose={handleCloseTheaterDialog}
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
       >
         <DialogTitle>
           Add Theater
@@ -594,7 +790,7 @@ function Header() {
             color="inherit"
             onClick={handleCloseTheaterDialog}
             aria-label="close"
-            sx={{ position: 'absolute', right: 8, top: 8 }}
+            sx={{ position: "absolute", right: 8, top: 8 }}
           >
             <CloseIcon />
           </IconButton>
@@ -606,7 +802,7 @@ function Header() {
             name="name"
             label="Name"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -615,7 +811,7 @@ function Header() {
             name="city"
             label="City"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -624,7 +820,7 @@ function Header() {
             name="ticketPrice"
             label="Ticket Price"
             type="number"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -633,7 +829,7 @@ function Header() {
             name="seats"
             label="Seats"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -642,7 +838,7 @@ function Header() {
             name="image"
             label="Image URL"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleTheaterChange}
           />
@@ -656,7 +852,7 @@ function Header() {
       <Dialog
         open={openMovieDialog}
         onClose={handleCloseMovieDialog}
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
       >
         <DialogTitle>
           Add Movie
@@ -665,7 +861,7 @@ function Header() {
             color="inherit"
             onClick={handleCloseMovieDialog}
             aria-label="close"
-            sx={{ position: 'absolute', right: 8, top: 8 }}
+            sx={{ position: "absolute", right: 8, top: 8 }}
           >
             <CloseIcon />
           </IconButton>
@@ -677,7 +873,7 @@ function Header() {
             name="title"
             label="Title"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -686,7 +882,7 @@ function Header() {
             name="image"
             label="Image URL"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -695,7 +891,7 @@ function Header() {
             name="language"
             label="Language"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -704,7 +900,7 @@ function Header() {
             name="genre"
             label="Genre"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -713,7 +909,7 @@ function Header() {
             name="director"
             label="Director"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -722,7 +918,7 @@ function Header() {
             name="trailer"
             label="Trailer URL"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -731,7 +927,7 @@ function Header() {
             name="description"
             label="Description"
             type="text"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -740,7 +936,7 @@ function Header() {
             name="duration"
             label="Duration (in minutes)"
             type="number"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             onChange={handleMovieChange}
           />
@@ -749,7 +945,7 @@ function Header() {
             name="startDate"
             label="Start Date"
             type="date"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             onChange={handleMovieChange}
@@ -759,7 +955,7 @@ function Header() {
             name="endDate"
             label="End Date"
             type="date"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             onChange={handleMovieChange}
@@ -771,7 +967,7 @@ function Header() {
           margin="dense"
           label="Add Time Slot"
           type="text"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           variant="standard"
           value={newTimeSlot}
           onChange={(e) => setNewTimeSlot(e.target.value)}
