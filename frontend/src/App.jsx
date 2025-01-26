@@ -54,6 +54,13 @@ import User from "./components/User/User.jsx";
 import "./App.css";
 import TheaterMovies from "./components/Theater/TheaterMovies.jsx";
 import MoviePage from "./components/Movies/MoviePage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Footer from "./components/Footer";
+import TermsOfUse from "./pages/TermsOfUse";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Blog from "./pages/Blog";
+import FAQ from "./pages/FAQ";
+import WatchList from "./pages/WatchList";
 
 function App() {
 
@@ -92,6 +99,15 @@ function App() {
         />
          
         </Routes>
+        
+        <Routes>
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/watch-list" element={<WatchList />} />
+        </Routes>
+        
       <Footer />
     
     </>
