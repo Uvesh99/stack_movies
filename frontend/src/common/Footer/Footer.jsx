@@ -1,4 +1,5 @@
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -7,28 +8,32 @@ const Footer = () => {
         <div className='container'>
           <div className='box'>
             <ul className='flex'>
-              <li>Terms of Use</li>
-              <li>Privacy-Policy</li>
-              <li>Blog</li>
-              <li>FAQ</li>
-              <li>Watch List</li>
+              <li><Link to="/terms-of-use">Terms of Use</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/blog">Blog</Link></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li><Link to="/watch-list">Watch List</Link></li>
             </ul>
-            <p>Welcome to Movie Stack! We strive to bring you the best movie-watching experience, offering a seamless platform to explore and book tickets for your favorite movies. Our commitment is to provide quality service and an easy-to-navigate interface, ensuring you enjoy every moment of your cinematic journey. Whether you're browsing the latest releases or revisiting classics, we've got you covered. Thank you for choosing us as your go-to destination for entertainment. We look forward to serving you!</p>
+            <p>Welcome to Movie Stack! We strive to bring you the best movie-watching experience, offering a seamless platform to explore and book tickets for your favorite movies. Thank you for choosing us as your go-to destination for entertainment.</p>
           </div>
           <div className='box'>
             <h3>Follow Us</h3>
-            <i className='fab fa-facebook-f'></i>
-            <i className='fab fa-twitter'></i>
-            <i className='fab fa-github'></i>
-            <i className='fab fa-instagram'></i>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i className='fab fa-facebook-f'></i></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><i className='fab fa-twitter'></i></a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer"><i className='fab fa-github'></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i className='fab fa-instagram'></i></a>
           </div>
           <div className='box'>
             <h3>Streamit App</h3>
             <div className='img flexSB'>
-              <img src='https://img.icons8.com/color/48/000000/apple-app-store--v3.png' />
-              <span>App Store</span>
-              <img src='https://img.icons8.com/fluency/48/000000/google-play.png' />
-              <span>Google Play Store</span>
+              <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+                <img src='https://img.icons8.com/color/48/000000/apple-app-store--v3.png' alt="App Store" />
+                <span>App Store</span>
+              </a>
+              <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
+                <img src='https://img.icons8.com/fluency/48/000000/google-play.png' alt="Google Play Store" />
+                <span>Google Play Store</span>
+              </a>
             </div>
           </div>
         </div>
@@ -37,4 +42,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default Footer;
