@@ -1,4 +1,4 @@
-footer {
+/* footer {
     background-color: #191919;
     margin-top: 100px;
     padding: 50px 0;
@@ -41,9 +41,105 @@ footer {
   }
 
   /***/
-  .whats{
+  /*.whats{
     /* margin-left: 93rem; */
-    transform: translateY(1rem);
-    cursor: pointer;
+    /* transform: translateY(1rem);
+    cursor: pointer; */
     /* animation: up-down 2.9s ease-in-out infinite; */
+  /*} */
+
+  footer {
+  background-color: #191919;
+  margin-top: 100px;
+  padding: 50px 0;
+  color: white;
+}
+footer .container {
+  display: grid;
+  grid-template-columns: 6fr 2fr 2fr;
+  grid-gap: 30px;
+}
+footer ul {
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+footer ul li {
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+footer i {
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  line-height: 40px !important;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  margin-right: 20px;
+  margin-top: 50px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+footer .img {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+footer span {
+  font-size: 12px;
+  margin-right: 10px;
+}
+@media only screen and (max-width: 1024px) {
+  footer .container {
+    grid-template-columns: 1fr 1fr 1fr;
   }
+}
+@media only screen and (max-width: 768px) {
+  footer .container {
+    grid-template-columns: 1fr;
+    grid-gap: 30px;
+  }
+  footer .box {
+    margin-bottom: 30px;
+  }
+  footer ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  footer ul li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  footer .img {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  footer {
+    padding: 30px 10px;
+  }
+  footer .container {
+    grid-gap: 15px;
+  }
+  footer .img img {
+    width: 32px;
+    height: 32px;
+  }
+  footer span {
+    font-size: 11px;
+  }
+}
+
+/***/
+.whats{
+  /* margin-left: 93rem; */
+  transform: translateY(1rem);
+  cursor: pointer;
+  /* animation: up-down 2.9s ease-in-out infinite; */
+}

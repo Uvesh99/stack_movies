@@ -182,7 +182,7 @@ const MovieDetails = () => {
     } 
     catch (error) {
       console.error('Error saving reservation:', error);
-      alert('There was an error saving your reservation. Please try again.');
+      // alert('There was an error saving your reservation. Please try again.');
     }
 
     alert('Your Tickets Are Booked!'); 
